@@ -20,12 +20,16 @@ variable "image_reference" {
     offer     = string
     sku       = string
     version   = string
+    name      = string
+    product   = string
   })
   default = {
     publisher = "kali-linux"
     offer     = "kali"
     sku       = "kali-2023-3"
     version   = "latest"
+    name      = "kali"
+    product   = "kali"
   }
 }
 variable "storage_os_disk" {

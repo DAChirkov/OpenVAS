@@ -53,6 +53,12 @@ resource "azurerm_linux_virtual_machine" "manage_servers" {
     version   = var.image_reference.version
   }
 
+  plan {
+    name      = var.image_reference.name
+    publisher = var.image_reference.publisher
+    product   = var.image_reference.product
+  }
+
   os_disk {
     name                 = "${var.manage_prefix}-${count.index + 1}_Disk1"
     caching              = var.storage_os_disk.caching
