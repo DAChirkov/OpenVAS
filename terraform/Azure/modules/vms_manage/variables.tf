@@ -28,7 +28,7 @@ variable "image_reference" {
     offer     = "kali"
     sku       = "kali-2023-3"
     version   = "latest"
-    name      = "kali"
+    name      = "kali-2023-3"
     product   = "kali"
   }
 }
