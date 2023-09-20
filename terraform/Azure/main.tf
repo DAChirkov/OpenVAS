@@ -22,12 +22,19 @@ resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
 }
 
-resource "azurerm_ssh_public_key" "ssh_servers_key" {
+resource "azurerm_ssh_public_key" "ssh_admin_key" {
   depends_on          = [azurerm_resource_group.rg]
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
   name                = var.resource_ssh_servers_key
   public_key          = var.resource_ssh_servers_public_key
+}
+resource "azurerm_ssh_public_key" "ssh_github_key" {
+  depends_on          = [azurerm_resource_group.rg]
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
+  name                = var.resource_ssh_github_key
+  public_key          = var.resource_ssh_github_public_key
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -89,5 +96,8 @@ module "vms_for_manage" {
   resource_group_location   = azurerm_resource_group.rg.location
   subnet_id                 = azurerm_subnet.snet1.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
-  public_key                = azurerm_ssh_public_key.ssh_servers_key.public_key
+  public_key = [
+    azurerm_ssh_public_key.ssh_admin_key.public_key,
+    azurerm_ssh_public_key.ssh_github_key.public_key
+  ]
 }
