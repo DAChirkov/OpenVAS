@@ -1,0 +1,39 @@
+name: Azure_Configuring Services
+on:
+  workflow_dispatch:      
+  workflow_run:
+    workflows:
+      - "Azure_Deploy OpenVAS"
+    types:
+      - completed
+
+env: 
+    ROOT_PATH: '${{github.workspace}}/configuration/ansible'
+
+jobs:
+  install_basic_packages:
+    name: Install Basic Packages
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{secrets.AZURE_SSH_KEY}}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Wait for 10 seconds
+      run: sleep 10
+     
+    - name: Copy SSH privat-key to VM
+      run: sudo scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa
+        ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com:/home/azroot/.ssh/
+
+    - name: Install Ansible Packages on Remote VM
+      run: ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+        ${{env.ROOT_PATH}}/inventory.ini
+        ${{env.ROOT_PATH}}/playbooks/basic_config.yaml
