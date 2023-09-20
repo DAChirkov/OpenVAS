@@ -40,7 +40,7 @@
         dest: /etc
 
     - name: Enable service OpenVAS
-      builtin:
+      systemd:
         name: redis-server@openvas.service
         enabled: yes
         state: started
