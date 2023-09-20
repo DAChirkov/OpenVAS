@@ -11,7 +11,7 @@ variable "vm_count" {
 }
 
 variable "vms_size" {
-  default     = "Standard_B2s"
+  default     = "Standard_B1ms"
   description = "Size for VMs"
 }
 variable "image_reference" {

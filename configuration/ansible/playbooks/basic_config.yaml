@@ -17,6 +17,7 @@
         name:
           - git
           - openvas
+          - net-tools
         state: present
         update_cache: yes
 
