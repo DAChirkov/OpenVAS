@@ -74,7 +74,7 @@ resource "azurerm_network_security_rule" "nsg_main_ssh" {
 }
 resource "azurerm_network_security_rule" "nsg_main_http" {
   depends_on                  = [azurerm_network_security_group.nsg_main]
-  name                        = "WEB-access"
+  name                        = "OpenVAS_console"
   resource_group_name         = var.resource_group_name
   network_security_group_name = var.resource_nsg_main
   priority                    = 101
