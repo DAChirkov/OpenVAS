@@ -16,6 +16,7 @@
       apt:
         name:
           - git
+          - openvas
         state: present
         update_cache: yes
 
@@ -37,3 +38,9 @@
         directory_mode: yes
         src: /home/temp/repo/configuration/ansible
         dest: /etc
+
+    - name: Enable service OpenVAS
+      builtin:
+        name: redis-server@openvas.service
+        enabled: yes
+        state: started
