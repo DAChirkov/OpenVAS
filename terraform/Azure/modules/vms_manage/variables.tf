@@ -22,9 +22,9 @@ variable "image_reference" {
     version   = string
   })
   default = {
-    publisher = "Debian"
-    offer     = "Debian-11"
-    sku       = "11"
+    publisher = "kali-linux"
+    offer     = "kali"
+    sku       = "kali-2023-3"
     version   = "latest"
   }
 }
