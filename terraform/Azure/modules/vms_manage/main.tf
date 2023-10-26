@@ -4,7 +4,6 @@
 
 # Create public IP
 resource "azurerm_public_ip" "manage_servers" {
-  depends_on          = [var.resource_group_name]
   count               = var.vm_count
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location

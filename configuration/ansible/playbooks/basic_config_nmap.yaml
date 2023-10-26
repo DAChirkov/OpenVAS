@@ -1,0 +1,41 @@
+- name: Install and Configuration Basic Packages
+  become: true
+  serial: 5
+  hosts: main
+  remote_user: azroot
+
+  tasks:
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400
+
+    - name: Install Required Packages
+      apt:
+        name:
+          - git
+          - nmap
+          - net-tools
+        state: present
+        update_cache: yes
+
+    - name: Clone Working Repository
+      git:
+        repo: https://github.com/DAChirkov/OpenVAS.git
+        dest: /home/temp/repo
+        force: true
+
+    - name: Create a New Directory
+      file:
+        path: /mnt/ansible
+        state: directory
+        mode: "0755"
+
+    - name: Copy Configuration to the Folder
+      copy:
+        remote_src: yes
+        directory_mode: yes
+        src: /home/temp/repo/configuration/ansible
+        dest: /etc
